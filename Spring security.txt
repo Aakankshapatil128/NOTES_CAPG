@@ -1,0 +1,2 @@
+Authentication --> check whether you are authorized or not , you are right person to access content or not
+Authorization --> how much content you can access

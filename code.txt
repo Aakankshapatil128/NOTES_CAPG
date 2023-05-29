@@ -1,0 +1,293 @@
+Q. 6,11
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q.1. Unique character
+
+public class Main
+{
+	public static void main(String[] args) {
+	String str = "msmtkm";
+	char[] ch = str.toCharArray();
+	int flag;
+	for(int i =0;i<ch.length;i++)
+	{
+	    flag = 0;
+	    for(int j =0;j<ch.length;j++)
+	    {
+	        if(ch[i]==ch[j] && i!=j)
+	        {
+	            flag=1;
+	            break;
+	        }
+	    }
+	    if(flag==0)
+	    {
+	        System.out.println(ch[i]);
+	    }
+	}
+ }
+}
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2.Check Two String which are reverse of each other or not. 
+
+ public class Main
+ {
+	public static void main(String[] args) {
+	    String str1 = "aabbcc";
+	    String str2 = "ccbbaa";
+		String temp="";
+		char ch;
+		for(int i=0;i<str1.length();i++)
+		{
+		    ch = str1.charAt(i);
+		    temp = ch+temp;
+		}
+		if(temp.equals(str2))
+		{
+		    System.out.println("Given strings are reverse of each other");
+		}
+		else{
+		    System.out.println("Given strings are not reverse of each other");
+		}
+	}
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3. Find the Smallest Sum of consecutive Number from given Array. 
+
+public class Main
+{
+	public static void main(String[] args) {
+		int min= Integer.MAX_VALUE;;
+		int arr[] = {-3,-2,4,0,2};
+		for(int i =0;i<arr.length-1;i++)
+		{
+		    int sum = arr[i]+arr[i+1];
+		    if(min>sum)
+		    {
+		        min = sum;
+		    }
+		}
+		System.out.println(min);
+	}
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4. Find the Power without using math.pow function. 
+
+import java.util.Scanner;
+public class Main
+{
+	public static void main(String[] args) {
+	    int result = 1;
+	    Scanner sc = new Scanner(System.in);
+		System.out.println("Enter the number: ");
+		int n = sc.nextInt();
+		System.out.println("Enter the power: ");
+		int pow = sc.nextInt();
+		for(int i=0;i<pow;i++)
+		{
+		    result = result*n;
+		}
+		System.out.println(n + " power "+pow +" = "+ result);
+	}
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5. Find the negative Power without using math.pow function. 
+
+import java.lang.Math.*;
+public class Main
+{
+	public static void main(String[] args) {
+		System.out.println("Hello World");
+		int num = 2;
+		int pow = -1;
+		float result = 1;
+		for(int i=0;i<Math.abs(pow);i++)
+		{
+		    result = result*num;
+		}
+		if(pow<0)
+		{
+		    result = 1/result;
+		}
+		System.out.println("Result = "+result);
+	}
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ 6. Reverse the String with and without recursion 
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q.8 Print the repeated characters in a String 
+
+public class Main
+{
+	public static void main(String[] args) {
+		String str = "Aakanksha Bharat Patil";
+		str = str.toLowerCase();
+		int count;
+		char str1[] = str.toCharArray();
+		for(int i=0;i<str1.length;i++)
+		{
+		   count =1;
+		    for(int j=i+1;j<str1.length;j++)
+		    {
+		        if(str1[i] == str1[j] && str1[i]!=' ')
+		        {
+		            count++;
+		             str1[j]='0';
+		        }
+		    }
+		    if(count>1 && str1[i]!='0')
+		    {
+		       System.out.println(str1[i]);
+		    }
+		}
+	}
+}
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q.10 Count the no of vowels and constants in a string
+public class Main
+{
+	public static void main(String[] args) {
+		String str = "Aakanksha";
+		String str1 = str.toLowerCase();
+		char[] ch = str1.toCharArray();
+		int count_v=0;
+		int count_c=0;
+		
+		for(int i =0;i<str.length();i++)
+		{
+		    if(ch[i]=='a'||ch[i]=='e'||ch[i]=='i'||ch[i]=='o'||ch[i]=='u')
+		    {
+		        count_v++;
+		    }
+		    else
+		    {
+		        count_c++;
+		    }
+		}
+		System.out.println("Count of vowels : "+count_v);
+		System.out.println("Count of constants : "+count_c);
+	}
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+11.Convert a String into integer?
+public class Main
+{
+	public static void main(String[] args) {
+		String s= "100";
+		int i = Integer.parseInt(s);
+		System.out.println(s+100);
+		System.out.println(i+100);
+	}
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+12.  Write a program to find the difference between equals and == 
+
+public class Main
+{
+	public static void main(String[] args) {
+		String a = "Hello";
+		String b = "Hello";
+		String c = new String("Hello");
+		if(a==b)
+		{
+		    System.out.println("true");
+		}
+		else{
+		    System.out.println("false");
+		}
+		if(a==c)
+		{
+		    System.out.println("true");
+		}
+		else{
+		    System.out.println("false");
+		}
+		System.out.println(a.equals(b));
+		System.out.println(a.equals(c));
+	}
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+53. ****
+     ****
+      ****
+       ****
+
+public class Main
+{
+	public static void main(String[] args) {
+		int n = 5;
+		for(int i=0;i<n;i++)
+		{
+		    int j = 1;
+		    while(j <= i)
+		    {
+		        System.out.print(" ");
+		        j++;
+		    }
+		    for(int k=0;k<n;k++)
+		    {
+		         System.out.print("* ");
+		    }
+		     System.out.println("");
+		}
+	}
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+# Remove space from String
+
+public class Main
+{
+	public static void main(String[] args) {
+	    String str = "Aakanksha Bharat Patil";
+		System.out.println("Original String : "+str);
+		str = str.replace(" ","");
+		System.out.println("String after removing space : "+str);
+	}
+}
+
+============================================================================================================================================================
+
+# Count space in string
+
+public class Main
+{
+	public static void main(String[] args) {
+		String str = " Aakanksha Bharat Patil ";
+		char c = ' ';
+		int count = 0;
+		for(int i =0;i<str.length();i++)
+		{
+		    if(str.charAt(i)==c)
+		    {
+		        count++;
+		    }
+		}
+		System.out.println("Count of spaces : "+count);
+	}
+}
+
+============================================================================================================================================================
+
