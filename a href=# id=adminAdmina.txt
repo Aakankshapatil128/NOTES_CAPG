@@ -1,0 +1,2 @@
+<a href="#" id="admin">Admin</a>
+<a href="#" id="customer">Customer</a>

@@ -1,0 +1,293 @@
+
+DBConnection.java
+
+package com.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.util.Properties;
+import java.sql.SQLException;
+import java.io.IOException;
+import java.io.FileInputStream;
+public class DBConnectionManager {
+	
+	private static Connection con = null;
+    private static Properties prop = new Properties();
+	public static Connection getConnection() throws ClassNotFoundException,SQLException
+	{
+	    try
+	    {
+	        FileInputStream fis = null;
+	        fis = new FileInputStream("database.properties");
+	        prop.load(fis);
+	        Class.forName(prop.getProperty("drivername"));
+	        con= DriverManager.getConnection(prop.getProperty("url"),prop.getProperty("username"),prop.getProperty("password"));
+	    }
+	    catch(IOException e)
+	    {
+	        e.printStackTrace();
+	    }
+		// Write code
+ 		
+		return con;
+	}
+}
+
+==========================================
+InvalidBookException.java
+
+package com.exception;
+
+public class InvalidBookException extends Exception{
+
+  public InvalidBookException(String s)
+  {
+     super(s);
+  }
+}
+=========================================
+BookService.java
+
+package com.service;
+
+import com.model.Book;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import com.dao.BookDAO;
+
+import com.exception.InvalidBookException;
+import com.model.Book;
+import com.util.ApplicationUtil;
+import java.util.*;
+
+public class BookService {
+	
+	public static List <Book> buildBookList(List <String> bookRecords) 
+	{
+		List <Book> bList = new ArrayList<Book>();
+
+		// Write code		
+		ApplicationUtil a = new ApplicationUtil();
+		for(int i=0;i<bookRecords.size();i++)
+		{
+		    Book o = new Book();
+		    String temp = bookRecords.get(i);
+		    String[] s = temp.split(":");
+		    o.setBookId(Integer.parseInt(s[0]));
+		    o.setDepartment(s[1]);
+		    o.setBookName(s[2]);
+		    o.setBookAuthor(s[3]);
+		    o.setPrice(Double.parseDouble(s[4]));
+		    o.setEdition(s[5]);
+		    o.setPublisher(s[6]);
+		    o.setDateOfPurchase(a.stringToDateConverter(s[7]));
+		    bList.add(o);
+		}
+		return bList;
+	}
+
+	public boolean addBookList(String books[])
+	{
+		boolean recordInserted=false;
+		
+		// Write code
+        try{
+            BookDAO bd = new BookDAO();
+            ApplicationUtil a = new ApplicationUtil();
+            List<String> list1 = a.extractDetails(books);
+            List<Book> list2 = buildBookList(list1);
+            int n = bd.insertBookList(list2);
+            if(n>0)
+            {
+                recordInserted = true;
+            }
+            return recordInserted;
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+         return recordInserted;
+ }
+	
+	public int calculateDepartmentCount(String department)
+	{
+
+        BookDAO bd = new BookDAO();
+        List<Book> bookList = bd.retrieveBookList(department);
+        if(bookList.size()>=0)
+        {
+            return bookList.size();
+        }
+        else
+        {
+            return -1;
+        }
+	    
+	}
+}
+=========================================
+ApplicationUtil.java
+
+
+package com.util;
+
+import com.exception.InvalidBookException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.*;
+
+public class ApplicationUtil {
+	
+	public static List<String> extractDetails(String[] books)
+	{
+		List<String> bookList=new ArrayList<String>();
+		
+		// Write code
+		for(int i=0;i<books.length;i++)
+		{
+		    String[] s = books[i].split(":");
+		    String id = s[1];
+		    try{
+		        if(validateBook(id))
+		        {
+		            bookList.add(books[i]);
+		        }
+		    }catch(Exception e)
+		    {
+		        System.out.println(e);
+		    }
+		}
+		
+		return bookList;
+	}
+
+	public static boolean validateBook(String department) throws InvalidBookException
+	{
+		
+		// Write code	
+		if(department=="CSE"||department=="EEE"||department=="CIVIL"||department=="MECH")
+		{
+		    return true;
+		}
+		else{
+		    throw new InvalidBookException("Invalid Book");
+		}
+	}
+	
+	public static java.util.Date stringToDateConverter(String date) 
+	{
+		// Write code	
+	 DateFormat dateFormat = new SimpleDateFormat("yy-MM-dd");
+	 try{
+	     return dateFormat.parse(date);
+	 }
+     catch(ParseException e)
+     {
+         e.printStackTrace();
+         return null;
+     }
+	}
+
+	public static java.sql.Date utilToSqlDateConverter(java.util.Date utDate) 
+	{
+	    // Write code
+	    java.sql.Date d = new java.sql.Date(utDate.getTime());
+	    return d;
+	}
+	
+	public static java.util.Date sqlToUtilDateConverter(java.sql.Date sDate) 
+	{
+	    
+	    // Write code
+	    java.util.Date d = new java.util.Date(sDate.getTime());
+	    return d;
+	}
+}
+
+========================================================================================
+
+BookDAO.java
+
+package com.dao;
+
+import java.util.ArrayList;
+import java.util.List;
+import com.model.Book;
+import java.util.Date;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import com.util.ApplicationUtil;
+
+public class BookDAO {
+
+	public int insertBookList(List<Book> bookList) {
+
+		// Write code
+        int cnt=0;
+        ApplicationUtil a = new ApplicationUtil();
+        try{
+            for(Book b :bookList)
+            {
+                Connection con = DBConnectionManager.getConnection();
+                String sql = "insert into BOOK(BOOKID,DEPT,BOOKNAME,BOOKAUTHOR,PRICE,EDITION,PUBLISHER,DATEOFPURCHASE) values(?,?,?,?,?,?,?,?)";
+                PreparedStatement st = con.prepareStatement(sql);
+                st.setInt(1,b.getBookId());
+                st.setString(2,b.getDepartment());
+                st.setString(3,b.getBookName());
+                st.setString(4,b.getBookAuthor());
+                st.setDouble(5,b.getPrice());
+                st.setString(6,b.getEdition());
+                st.setString(7,b.getPublisher());
+                st.setDate(8,a.utilToSqlDateConverter(b.getDateOfPurchase()));
+                st.executeUpdate();
+                cnt++;
+            }
+            if(cnt>0)
+            {
+                return cnt;
+            }
+        }catch(ClassNotFoundException|SQLException e)
+        {
+            e.printStackTrace();
+        }
+		return -1;
+	}
+	
+	public List<Book> retrieveBookList(String department) {
+		
+		// Write code
+		ApplicationUtil a = new ApplicationUtil();
+		try{
+		    List<Book> l = new ArrayList<>();
+		    Connection con = DBConnectionManager.getConnection();
+		    String sql = "select * from book where dept = ?";
+		    PreparedStatement st = con.prepareStatement(sql);
+		    st.setString(1,department);
+		    ResultSet rs = st.executeQuery();
+		    while(rs.next()){
+		        int id = rs.getInt("bookid");
+		        String dept = rs.getString("dept");
+		        String bookn = rs.getString("bookname");
+		        String booka = rs.getString("bookauthor");
+		        double price = rs.getDouble("price");
+		        String edi = rs.getString("edition");
+		        String publi = rs.getString("publisher");
+		        Date d = a.sqlToUtilDateConverter(rs.getDate("dateofpurchase"));
+		        Book b = new Book(id,dept,bookn,booka,price,edi,publi,d);
+		        l.add(b);
+		    }
+		    return l;
+		}catch(ClassNotFoundException | SQLException e)
+		{
+		    e.printStackTrace();
+		}
+		return null;	
+	}
+}

@@ -1,0 +1,133 @@
+1.
+
+function addNumbers(num1, num2) {
+  return num1 + num2;
+}
+
+module.exports = addNumbers;
+
+
+
+2.
+/**  Write a function that can receives customer id and name as an array (use tuple). 
+     Return the name with more characte  **/
+
+function findName(customer):string{
+	
+	//fill code here
+	let maxName = '';
+  for (let i = 0; i < customer.length; i++) {
+    const name = customer[i][1];
+    if (name.length > maxName.length) {
+      maxName = name;
+    }
+  }
+  return maxName;
+}
+export=findName;
+
+
+3.
+/**  Write a function that can accept any number of arguments and add them to return the result  **/
+
+function addAllArg(...nums:number[]):number{	
+	//Implement code here
+	 return nums.reduce((acc, val) => acc + val, 0);
+}
+module.exports = addAllArg;
+
+
+
+4.
+export class Product {
+    //Implement code here
+    constructor(productId, productName) {
+    this.productId = productId;
+    this.productName = productName;
+  }
+
+  getProductId() {
+    return this.productId;
+  }
+
+  getProductName() {
+    return this.productName;
+  }
+}
+
+export class DressProduct extends Product{        //Add inheritance
+    //Implement code here    
+    constructor(productId, productName, productSize, productType) {
+    super(productId, productName);
+    this.productSize = productSize;
+    this.productType = productType;
+  }
+
+  getProductSize() {
+    return this.productSize;
+  }
+
+  getProductType() {
+    return this.productType;
+  }
+}
+
+
+
+5.
+//Implement code here
+interface Customer {
+    name: string;
+    id: number;
+}
+
+const customers: Customer[] = [];
+
+function addCustomer(customer: Customer): Customer[] {
+    customers.push(customer);
+    return customers;
+}
+
+export = addCustomer ;
+
+
+6.
+// DO NOT CHANGE THIS BELOW LINES
+var averageMarks = 0;   // Use this variable to store the average mark 
+var studentGrade = "";  // Use this variable to store the student grade 
+
+
+//Implement the calculateAverageMark function and use the rest parameter as an argument
+//Return the average mark with 2 decimal places
+
+
+
+//Implement the calculateStudentGrade function 
+//Return the student grade 
+
+function calculateAverageMark(...args) {
+  const total = args.reduce((acc, curr) => acc + curr);
+  const average = total / args.length;
+  return parseFloat(average.toFixed(2));
+}
+
+
+function calculateStudentGrade(averageMark) {
+  let grade;
+  if (averageMark < 50) {
+    grade = 'F';
+  } else if (averageMark < 60) {
+    grade = 'D';
+  } else if (averageMark < 70) {
+    grade = 'C';
+  } else if (averageMark < 80) {
+    grade = 'B';
+  } else if (averageMark < 90) {
+    grade = 'A';
+  } else {
+    grade = 'O';
+  }
+  return grade;
+}
+
+
